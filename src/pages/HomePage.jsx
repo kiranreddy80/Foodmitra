@@ -30,6 +30,69 @@ const transitionLuxe = { duration: 1, ease: [0.19, 1, 0.22, 1] };
 
 // --- Sub-components ---
 
+const CountdownTimer = () => {
+  const [timeLeft, setTimeLeft] = useState({
+    days: 0,
+    hours: 0,
+    minutes: 0,
+    seconds: 0
+  });
+
+  useEffect(() => {
+    // Set launch date to 2 months from now
+    const launchDate = new Date();
+    launchDate.setMonth(launchDate.getMonth() + 2);
+
+    const timer = setInterval(() => {
+      const now = new Date().getTime();
+      const distance = launchDate.getTime() - now;
+
+      if (distance < 0) {
+        clearInterval(timer);
+        return;
+      }
+
+      setTimeLeft({
+        days: Math.floor(distance / (1000 * 60 * 60 * 24)),
+        hours: Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+        minutes: Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)),
+        seconds: Math.floor((distance % (1000 * 60)) / 1000)
+      });
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, []);
+
+  const TimerUnit = ({ value, label, color }) => (
+    <div style={{ textAlign: 'center' }}>
+      <div className="card-luxe" style={{
+        padding: '1.5rem',
+        minWidth: '100px',
+        background: 'rgba(255,255,255,0.05)',
+        border: '1px solid rgba(255,255,255,0.1)',
+        backdropFilter: 'blur(10px)',
+        marginBottom: '1rem'
+      }}>
+        <span style={{ fontSize: '2.5rem', fontWeight: 900, color: color || '#fff' }}>
+          {value.toString().padStart(2, '0')}
+        </span>
+      </div>
+      <span style={{ fontSize: '0.75rem', fontWeight: 900, color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', letterSpacing: '0.2em' }}>
+        {label}
+      </span>
+    </div>
+  );
+
+  return (
+    <div style={{ display: 'flex', gap: '1.5rem', flexWrap: 'wrap', justifyContent: 'center', marginTop: '3rem' }}>
+      <TimerUnit value={timeLeft.days} label="Days" color="var(--color-brand)" />
+      <TimerUnit value={timeLeft.hours} label="Hours" />
+      <TimerUnit value={timeLeft.minutes} label="Mins" />
+      <TimerUnit value={timeLeft.seconds} label="Secs" color="var(--color-accent)" />
+    </div>
+  );
+};
+
 const BenefitSection = ({ activeTab, setActiveTab }) => {
   const data = {
     customers: {
@@ -302,118 +365,66 @@ export default function HomePage() {
         </div>
       </nav>
 
-      {/* Hero: Architectural Split Version */}
-      <section id="hero" className="section mobile-stack" style={{
+      {/* Hero: Coming Soon Version */}
+      <section id="hero" className="section" style={{
         minHeight: '100vh',
-        background: 'var(--color-bone)',
+        background: 'var(--color-ink)',
         display: 'flex',
-        flexWrap: 'wrap',
         alignItems: 'center',
+        justifyContent: 'center',
         position: 'relative',
         overflow: 'hidden',
-        padding: 0,
-        paddingTop: '80px'
+        padding: 0
       }}>
+        {/* Cinematic Backdrop */}
+        <motion.div
+          initial={{ opacity: 0, scale: 1.1 }}
+          animate={{ opacity: 0.6, scale: 1 }}
+          transition={{ duration: 2, ease: "easeOut" }}
+          style={{
+            position: 'absolute',
+            inset: 0,
+            backgroundImage: 'url("https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=1920&q=80")',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            zIndex: 0
+          }}
+        />
+        <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle at center, transparent 0%, var(--color-ink) 100%)', zIndex: 1 }} />
 
-        {/* Left: Brand Totem (Vertical Text) - Hidden on Mobile */}
-        <div className="mobile-hide" style={{
-          width: '120px',
-          height: '100%',
-          borderRight: '1px solid rgba(0,0,0,0.05)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          background: '#fff',
-          zIndex: 5
-        }}>
-          <h2 className="serif" style={{
-            transform: 'rotate(-90deg)',
-            whiteSpace: 'nowrap',
-            fontSize: '4rem',
-            opacity: 0.1,
-            letterSpacing: '0.5rem',
-            color: 'var(--color-ink)'
-          }}>
-            MITHRA • SYSTEMS
-          </h2>
-        </div>
-
-        {/* Center: The Cinematic Canvas */}
-        <div style={{ flex: 1, minHeight: '400px', position: 'relative', height: '100%', background: 'var(--color-ink)' }}>
-          {/* Sharp Cinematic Backdrop */}
+        <div className="container" style={{ position: 'relative', zIndex: 2, textAlign: 'center' }}>
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{
-              opacity: [0, 1, 1, 0.9],
-              scale: [1.1, 1.05, 1.05, 1]
-            }}
-            transition={{ duration: 8, times: [0, 0.1, 0.5, 1] }}
-            style={{
-              position: 'absolute',
-              inset: 0,
-              backgroundImage: 'url("https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=1920&q=80")',
-              backgroundSize: 'cover',
-              backgroundPosition: 'center'
-            }}
-          />
-
-          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to right, rgba(251,250,246,1) 0%, rgba(251,250,246,0) 20%, rgba(251,250,246,0) 80%, rgba(251,250,246,1) 100%)', zIndex: 1 }} />
-
-          <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', zIndex: 2, textAlign: 'center' }}>
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1.5 }}
-            >
-
-
-            </motion.div>
-          </div>
-        </div>
-
-        {/* Right: The Manifest Panel */}
-        <div className="mobile-stack" style={{
-          width: '100%',
-          maxWidth: '500px',
-          height: '100%',
-          background: '#fff',
-          padding: '4rem 2rem',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          position: 'relative',
-          zIndex: 5
-        }}>
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 1, duration: 0.8 }}
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1 }}
           >
-            <span className="eyebrow" style={{ color: 'var(--color-brand)', marginBottom: '2rem', display: 'block' }}>ESTABLISHED 2026</span>
-            <h3 className="display-2" style={{ fontSize: '3.5rem', marginBottom: '2.5rem' }}>Price <span className="serif">Dignity.</span></h3>
-            <p style={{ color: 'var(--color-slate)', fontSize: '1.25rem', lineHeight: 1.6, marginBottom: '4rem' }}>
-              We've redesigned the food ecosystem to prioritize local craftsmanship over digital markups. Experience the true cost of culinary excellence.
+            <span className="eyebrow" style={{ color: 'var(--color-brand)', marginBottom: '2rem' }}>ESTABLISHED 2026</span>
+            <h1 className="display-1" style={{ color: '#fff', marginBottom: '2.5rem' }}>
+              The Fairness Engine <span className="serif">is Launching.</span>
+            </h1>
+            <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: '1.5rem', maxWidth: '800px', margin: '0 auto 4rem', lineHeight: 1.6 }}>
+              We are coming soon in the next 2 months. The digital sanctuary for restaurants, riders, and diners is almost ready.
             </p>
 
-            <div style={{ display: 'grid', gap: '2rem', marginBottom: '5rem' }}>
-              {['Live Menu Synchronization', '0% Artificial Markup', 'Salary-Backed Logistics'].map((item, i) => (
-                <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
-                  <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: 'var(--color-brand)' }} />
-                  <span style={{ fontWeight: 800, fontSize: '0.9rem', color: 'var(--color-ink)', textTransform: 'uppercase' }}>{item}</span>
-                </div>
-              ))}
+            <CountdownTimer />
+
+            <div style={{ marginTop: '6rem', display: 'flex', gap: '2rem', justifyContent: 'center', flexWrap: 'wrap' }}>
+              <button onClick={() => setShowPopup(true)} className="btn-premium" style={{ background: 'var(--color-brand)', color: 'var(--color-ink)' }}>
+                JOIN THE WAITLIST <ArrowRight size={18} />
+              </button>
+              <button onClick={() => scrollTo('about')} className="btn-premium" style={{ background: 'transparent', border: '1px solid rgba(255,255,255,0.2)', color: '#fff' }}>
+                EXPLORE MISSION
+              </button>
             </div>
-
-            <button onClick={() => scrollTo('benefits')} className="btn-premium" style={{ width: '100%', justifyContent: 'center' }}>
-              JOIN THE WAITLIST <ArrowRight size={18} />
-            </button>
           </motion.div>
+        </div>
 
-          <div style={{ position: 'absolute', bottom: '4rem', display: 'flex', gap: '1rem', opacity: 0.2, alignItems: 'center' }}>
-            <img src="/logo.jpeg" alt="" style={{ width: '20px', height: '20px', borderRadius: '4px' }} />
-            <Globe size={20} />
-            <ShieldCheck size={20} />
-          </div>
+        {/* Decorative elements */}
+        <div className="mobile-hide" style={{ position: 'absolute', bottom: '4rem', left: '4rem', display: 'flex', gap: '1rem', opacity: 0.2, alignItems: 'center', color: '#fff' }}>
+          <img src="/logo.jpeg" alt="" style={{ width: '20px', height: '20px', borderRadius: '4px' }} />
+          <Globe size={20} />
+          <ShieldCheck size={20} />
+          <span style={{ fontSize: '0.8rem', fontWeight: 800 }}>MITHRA PROTOCOL v1.0</span>
         </div>
       </section>
 
