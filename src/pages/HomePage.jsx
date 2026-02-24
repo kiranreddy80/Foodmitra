@@ -400,22 +400,13 @@ export default function HomePage() {
           >
             <span className="eyebrow" style={{ color: 'var(--color-brand)', marginBottom: '2rem' }}>ESTABLISHED 2026</span>
             <h1 className="display-1" style={{ color: '#fff', marginBottom: '2.5rem' }}>
-              The Fairness Engine <span className="serif">is Launching.</span>
+              FOOD MITHRA <span className="serif">is Launching.</span>
             </h1>
             <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: '1.5rem', maxWidth: '800px', margin: '0 auto 4rem', lineHeight: 1.6 }}>
               We are coming soon in the next 2 months. The digital sanctuary for restaurants, riders, and diners is almost ready.
             </p>
 
             <CountdownTimer />
-
-            <div style={{ marginTop: '6rem', display: 'flex', gap: '2rem', justifyContent: 'center', flexWrap: 'wrap' }}>
-              <button onClick={() => setShowPopup(true)} className="btn-premium" style={{ background: 'var(--color-brand)', color: 'var(--color-ink)' }}>
-                JOIN THE WAITLIST <ArrowRight size={18} />
-              </button>
-              <button onClick={() => scrollTo('about')} className="btn-premium" style={{ background: 'transparent', border: '1px solid rgba(255,255,255,0.2)', color: '#fff' }}>
-                EXPLORE MISSION
-              </button>
-            </div>
           </motion.div>
         </div>
 
