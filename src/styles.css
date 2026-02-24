@@ -40,11 +40,34 @@ body {
   overflow-x: hidden;
 }
 
+/* --- Responsive Utilities --- */
+@media (max-width: 900px) {
+  .mobile-hide {
+    display: none !important;
+  }
+
+  .mobile-stack {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 3rem !important;
+  }
+
+  .mobile-grid-1 {
+    grid-template-columns: 1fr !important;
+  }
+}
+
 /* --- Layout Architecture --- */
 .container {
   max-width: 1400px;
   margin: 0 auto;
   padding: 0 2rem;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 0 1.5rem;
+  }
 }
 
 .section {

@@ -65,8 +65,8 @@ const BenefitSection = ({ activeTab, setActiveTab }) => {
           <div className="accent-line" style={{ margin: '2rem auto 0' }} />
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: '350px 1fr', gap: '6rem', alignItems: 'start' }}>
-          <div style={{ display: 'grid', gap: '1rem' }}>
+        <div className="mobile-stack" style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 350px) minmax(0, 1fr)', gap: '4rem', alignItems: 'start' }}>
+          <div className="mobile-stack" style={{ display: 'grid', gap: '1rem' }}>
             {Object.keys(data).map((key) => (
               <button
                 key={key}
@@ -131,7 +131,7 @@ const ProcessSection = () => (
         <p style={{ color: 'var(--color-slate)', fontSize: '1.25rem', marginTop: '2rem' }}>A hard-coded commitment to economic fairness across the network.</p>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '4rem' }}>
+      <div className="mobile-stack" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '3rem' }}>
         {[
           { n: "01", t: "Edge Synchronization", d: "Direct 24h binary sync between outlet POS systems and our digital registry." },
           { n: "02", t: "Capital Decoupling", d: "Isolating food costs from platform operations to preserve kitchen craft-value." },
@@ -151,14 +151,14 @@ const ProcessSection = () => (
 const ImpactSection = () => (
   <section className="section" style={{ background: 'var(--color-bone)' }}>
     <div className="container">
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.2fr', gap: '8rem', alignItems: 'center' }}>
+      <div className="mobile-stack" style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) minmax(0, 1.2fr)', gap: '4rem', alignItems: 'center' }}>
         <div>
           <h3 className="display-2">Wealth <span className="serif">Restored.</span></h3>
           <p style={{ marginTop: '3rem', fontSize: '1.3rem', color: 'var(--color-slate)', lineHeight: 1.7 }}>
             We track our impact not by the volume of transactions, but by the capital returned to local economies.
           </p>
         </div>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2.5rem' }}>
+        <div className="mobile-stack" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '2rem' }}>
           <div className="card-luxe" style={{ background: '#fff', padding: '4rem' }}>
             <div style={{ fontSize: '3.5rem', fontWeight: 900, color: 'var(--color-brand)' }}>₹1.2Cr</div>
             <div style={{ fontWeight: 800, marginTop: '1rem' }}>Commission Capital Recovered</div>
@@ -206,7 +206,7 @@ const LegalSection = () => {
   return (
     <section id="legal" className="section" style={{ background: 'var(--color-white)' }}>
       <div className="container">
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: '8rem' }}>
+        <div className="mobile-stack" style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) minmax(0, 2fr)', gap: '4rem' }}>
           <div>
             <h3 className="display-2" style={{ marginBottom: '4rem' }}>Legal <span className="serif">Nodes.</span></h3>
             <div style={{ display: 'grid', gap: '1rem' }}>
@@ -292,21 +292,22 @@ export default function HomePage() {
             </div>
             <h2 style={{ fontSize: '1.6rem', color: 'var(--color-ink)', fontWeight: 900 }}>FOOD MITHRA</h2>
           </div>
-          <div className="nav-links">
+          <div className="nav-links mobile-hide">
             <button onClick={() => scrollTo('about')} className="nav-link" style={{ background: 'none', border: 'none', cursor: 'pointer' }}>About</button>
             <button onClick={() => scrollTo('benefits')} className="nav-link" style={{ background: 'none', border: 'none', cursor: 'pointer' }}>Benefits</button>
             <button onClick={() => scrollTo('legal')} className="nav-link" style={{ background: 'none', border: 'none', cursor: 'pointer' }}>Legal</button>
             <button onClick={() => scrollTo('contact')} className="nav-link" style={{ background: 'none', border: 'none', cursor: 'pointer' }}>Contact</button>
           </div>
-          <button onClick={() => setShowPopup(true)} className="btn-premium" style={{ padding: '0.8rem 2rem', fontSize: '0.8rem' }}>GET EARLY ACCESS</button>
+          <button onClick={() => setShowPopup(true)} className="btn-premium mobile-hide" style={{ padding: '0.8rem 2rem', fontSize: '0.8rem' }}>GET EARLY ACCESS</button>
         </div>
       </nav>
 
       {/* Hero: Architectural Split Version */}
-      <section id="hero" className="section" style={{
-        height: '100vh',
+      <section id="hero" className="section mobile-stack" style={{
+        minHeight: '100vh',
         background: 'var(--color-bone)',
         display: 'flex',
+        flexWrap: 'wrap',
         alignItems: 'center',
         position: 'relative',
         overflow: 'hidden',
@@ -314,8 +315,8 @@ export default function HomePage() {
         paddingTop: '80px'
       }}>
 
-        {/* Left: Brand Totem (Vertical Text) */}
-        <div style={{
+        {/* Left: Brand Totem (Vertical Text) - Hidden on Mobile */}
+        <div className="mobile-hide" style={{
           width: '120px',
           height: '100%',
           borderRight: '1px solid rgba(0,0,0,0.05)',
@@ -338,7 +339,7 @@ export default function HomePage() {
         </div>
 
         {/* Center: The Cinematic Canvas */}
-        <div style={{ flex: 1, position: 'relative', height: '100%', background: 'var(--color-ink)' }}>
+        <div style={{ flex: 1, minHeight: '400px', position: 'relative', height: '100%', background: 'var(--color-ink)' }}>
           {/* Sharp Cinematic Backdrop */}
           <motion.div
             initial={{ opacity: 0 }}
@@ -371,11 +372,12 @@ export default function HomePage() {
         </div>
 
         {/* Right: The Manifest Panel */}
-        <div style={{
-          width: '500px',
+        <div className="mobile-stack" style={{
+          width: '100%',
+          maxWidth: '500px',
           height: '100%',
           background: '#fff',
-          padding: '6rem',
+          padding: '4rem 2rem',
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'center',
@@ -441,7 +443,7 @@ export default function HomePage() {
       {/* About Us */}
       <section id="about" className="section" style={{ background: 'var(--color-white)' }}>
         <div className="container">
-          <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: '8rem', alignItems: 'center' }}>
+          <div className="mobile-stack" style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1.2fr) minmax(0, 1fr)', gap: '4rem', alignItems: 'center' }}>
             <div>
               <div className="accent-line" />
               <h3 className="display-2" style={{ marginBottom: '3rem' }}>ABOUT <span className="serif"> US</span></h3>
@@ -541,7 +543,7 @@ export default function HomePage() {
                   <div className="eyebrow" style={{ color: cat.color, fontWeight: 900, letterSpacing: '0.2rem' }}>{cat.t}</div>
                   <div style={{ height: '1px', flex: 1, background: 'rgba(255,255,255,0.1)' }} />
                 </div>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '3rem' }}>
+                <div className="mobile-stack" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '2rem' }}>
                   {cat.items.map((item, j) => (
                     <div key={j} className="card-luxe" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.05)', padding: '3.5rem', color: '#fff' }}>
                       <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '2.5rem' }}>
@@ -568,7 +570,7 @@ export default function HomePage() {
         <div className="container">
           <div className="card-luxe" style={{ background: 'var(--color-ink)', color: '#fff', padding: '8rem', position: 'relative', overflow: 'hidden' }}>
             <div style={{ position: 'absolute', top: '-10%', right: '-10%', width: '400px', height: '400px', background: 'var(--color-brand)', borderRadius: '50%', filter: 'blur(150px)', opacity: 0.1 }} />
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.2fr', gap: '8rem' }}>
+            <div className="mobile-stack" style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) minmax(0, 1.2fr)', gap: '4rem' }}>
               <div>
                 <h3 className="display-2" style={{ color: '#fff' }}>Contact <span className="serif">Us.</span></h3>
                 <p style={{ marginTop: '2.5rem', fontSize: '1.3rem', color: 'rgba(255,255,255,0.5)', lineHeight: 1.6 }}>
@@ -598,7 +600,7 @@ export default function HomePage() {
               </div>
               <div>
                 <form style={{ display: 'grid', gap: '2rem' }}>
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem' }}>
+                  <div className="mobile-stack" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
                     <input type="text" placeholder="FULL NAME" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', padding: '1.8rem', borderRadius: '20px', color: '#fff', fontSize: '0.9rem', fontWeight: 700 }} />
                     <input type="email" placeholder="EMAIL ADDRESS" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', padding: '1.8rem', borderRadius: '20px', color: '#fff', fontSize: '0.9rem', fontWeight: 700 }} />
                   </div>
@@ -615,7 +617,7 @@ export default function HomePage() {
       {/* Footer */}
       <footer className="section" style={{ background: 'var(--color-white)', paddingBottom: '4rem', borderTop: '1px solid var(--color-bone)' }}>
         <div className="container">
-          <div style={{ display: 'grid', gridTemplateColumns: '1.5fr 1fr 1fr 1.2fr', gap: '6rem', marginBottom: '8rem' }}>
+          <div className="mobile-stack" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '4rem', marginBottom: '6rem' }}>
             {/* Brand Column */}
             <div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '2.5rem' }}>
