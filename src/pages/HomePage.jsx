@@ -50,12 +50,13 @@ const CountdownTimer = () => {
 
   const TimerUnit = ({ value, label, isBrand }) => (
     <motion.div
+      className="countdown-unit"
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8 }}
       style={{ textAlign: 'center' }}
     >
-      <div style={{
+      <div className="countdown-box" style={{
         background: '#fff',
         padding: '2rem',
         minWidth: '120px',
@@ -64,16 +65,16 @@ const CountdownTimer = () => {
         border: '1px solid rgba(0,0,0,0.03)',
         marginBottom: '1rem'
       }}>
-        <div style={{ fontSize: '3.5rem', fontWeight: 900, color: isBrand ? 'var(--color-brand)' : 'var(--color-ink)', letterSpacing: '-0.02em' }}>
+        <div className="countdown-value" style={{ fontSize: '3.5rem', fontWeight: 900, color: isBrand ? 'var(--color-brand)' : 'var(--color-ink)', letterSpacing: '-0.02em' }}>
           {value.toString().padStart(2, '0')}
         </div>
       </div>
-      <span style={{ fontSize: '0.75rem', fontWeight: 900, color: 'var(--color-ghost)', textTransform: 'uppercase', letterSpacing: '0.2em' }}>{label}</span>
+      <span className="countdown-label" style={{ fontSize: '0.75rem', fontWeight: 900, color: 'var(--color-ghost)', textTransform: 'uppercase', letterSpacing: '0.2em' }}>{label}</span>
     </motion.div>
   );
 
   return (
-    <div style={{ display: 'flex', gap: '2rem', flexWrap: 'wrap', justifyContent: 'center', marginTop: '4rem' }}>
+    <div className="countdown-row" style={{ display: 'flex', gap: '2rem', flexWrap: 'wrap', justifyContent: 'center', marginTop: '4rem' }}>
       <TimerUnit value={timeLeft.days} label="Days" isBrand />
       <TimerUnit value={timeLeft.hours} label="Hours" />
       <TimerUnit value={timeLeft.minutes} label="Mins" />
@@ -865,30 +866,54 @@ export default function HomePage() {
           <div style={{ height: '100px', width: '1px', background: 'var(--color-ink)' }} />
           <span style={{ writingMode: 'vertical-rl', fontSize: '0.7rem', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '0.3em' }}>ESTABLISHED 2026</span>
         </div>
+      </section>      {/* Photo Strip Between Hero and About */}
+      <section style={{ padding: '1rem 0', background: 'var(--color-bone)', overflow: 'hidden' }}>
+        <div style={{ overflow: 'hidden', borderTop: '1px solid rgba(0,0,0,0.05)', borderBottom: '1px solid rgba(0,0,0,0.05)', padding: '0.65rem 0' }}>
+          <motion.div
+            animate={{ x: ['0%', '-50%'] }}
+            transition={{ duration: 32, repeat: Infinity, ease: "linear" }}
+            style={{ display: 'flex', gap: '0.75rem', width: 'max-content' }}
+          >
+            {[
+              "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=900&q=80",
+              "https://images.unsplash.com/photo-1552566626-52f8b828add9?auto=format&fit=crop&w=900&q=80",
+              "https://images.unsplash.com/photo-1526318896980-cf78c088247c?auto=format&fit=crop&w=900&q=80",
+              "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=900&q=80",
+              "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=900&q=80",
+              "https://images.unsplash.com/photo-1455587734955-081b22074882?auto=format&fit=crop&w=900&q=80",
+              "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=900&q=80",
+              "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?auto=format&fit=crop&w=900&q=80",
+              "https://images.unsplash.com/photo-1541544741938-0af808871cc0?auto=format&fit=crop&w=900&q=80",
+              "https://images.unsplash.com/photo-1529042410759-befb1204b468?auto=format&fit=crop&w=900&q=80",
+              "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=900&q=80",
+              "https://images.unsplash.com/photo-1552566626-52f8b828add9?auto=format&fit=crop&w=900&q=80",
+              "https://images.unsplash.com/photo-1526318896980-cf78c088247c?auto=format&fit=crop&w=900&q=80",
+              "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=900&q=80",
+              "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=900&q=80",
+              "https://images.unsplash.com/photo-1455587734955-081b22074882?auto=format&fit=crop&w=900&q=80",
+              "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=900&q=80",
+              "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?auto=format&fit=crop&w=900&q=80",
+              "https://images.unsplash.com/photo-1541544741938-0af808871cc0?auto=format&fit=crop&w=900&q=80",
+              "https://images.unsplash.com/photo-1529042410759-befb1204b468?auto=format&fit=crop&w=900&q=80"
+            ].map((img, idx) => (
+              <div
+                key={`${img}-${idx}`}
+                style={{
+                  width: '210px',
+                  height: '110px',
+                  borderRadius: '12px',
+                  overflow: 'hidden',
+                  border: '1px solid rgba(50,38,33,0.08)',
+                  flexShrink: 0,
+                  background: '#fff'
+                }}
+              >
+                <img src={img} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+              </div>
+            ))}
+          </motion.div>
+        </div>
       </section>
-
-      {/* Scrolling Text Banner - Animated Marquee */}
-      <div style={{
-        height: '140px',
-        display: 'flex',
-        alignItems: 'center',
-        overflow: 'hidden',
-        background: 'var(--color-bone)',
-        borderTop: '1px solid rgba(0,0,0,0.05)',
-        borderBottom: '1px solid rgba(0,0,0,0.05)'
-      }}>
-        <motion.div
-          animate={{ x: [0, -1000] }}
-          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-          style={{ display: 'flex', whiteSpace: 'nowrap', gap: '4rem' }}
-        >
-          {[1, 2, 3, 4].map((_, i) => (
-            <h2 key={i} className="display-2" style={{ fontWeight: 900, fontSize: '4rem', opacity: 0.1, color: 'var(--color-ink)' }}>
-              RESTAURANTS • DHABAS • HOTELS •
-            </h2>
-          ))}
-        </motion.div>
-      </div>
 
       {/* About Us */}
       <motion.section
@@ -901,7 +926,7 @@ export default function HomePage() {
         style={{ background: 'var(--color-white)' }}
       >
         <div className="container">
-          <div className="mobile-stack" style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1.2fr) minmax(0, 1fr)', gap: '4rem', alignItems: 'center' }}>
+          <div className="mobile-stack about-grid" style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1.2fr) minmax(0, 1fr)', gap: '4rem', alignItems: 'center' }}>
             <div>
               <div className="accent-line" />
               <h3 className="display-2" style={{ marginBottom: '3rem' }}>ABOUT <span className="serif"> US</span></h3>
@@ -911,7 +936,7 @@ export default function HomePage() {
               <p style={{ fontSize: '1.3rem', color: 'var(--color-slate)', lineHeight: 1.8, marginBottom: '4rem' }}>
                 We've built a sanctuary—a platform that restores the sacred connection between a kitchen's effort and a diner's table. No markups, no exploitative gig-work, just honest food delivered with dignity.
               </p>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '3rem' }}>
+              <div className="about-stats" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '3rem' }}>
                 <div style={{ borderLeft: '3px solid var(--color-brand)', paddingLeft: '2rem' }}>
                   <div style={{ fontSize: '2.5rem', fontWeight: 900 }}>2026</div>
                   <div style={{ fontSize: '0.75rem', fontWeight: 900, color: 'var(--color-ghost)', textTransform: 'uppercase' }}>Genesis Year</div>
@@ -922,9 +947,10 @@ export default function HomePage() {
                 </div>
               </div>
             </div>
-            <div className="card-luxe" style={{ background: 'var(--color-bone)', padding: '5rem', position: 'relative', overflow: 'hidden', minHeight: '500px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <div className="card-luxe about-highlight" style={{ background: 'var(--color-bone)', padding: '5rem', position: 'relative', overflow: 'hidden', minHeight: '500px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               {/* Animated Logo Background */}
               <motion.div
+                className="about-logo-glow"
                 initial={{ filter: 'blur(0px)', opacity: 1, scale: 0.6 }}
                 whileInView={{
                   filter: 'blur(30px)',
@@ -1257,6 +1283,7 @@ export default function HomePage() {
     </div>
   );
 }
+
 
 
 

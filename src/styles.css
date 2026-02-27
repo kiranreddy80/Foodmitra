@@ -294,6 +294,15 @@ h4 {
   cursor: pointer;
 }
 
+/* Hero countdown */
+.countdown-row {
+  width: 100%;
+}
+
+.countdown-unit {
+  flex: 1 1 auto;
+}
+
 /* Reviews Motion Layout */
 .reviews-marquee-wrap {
   position: relative;
@@ -450,6 +459,81 @@ h4 {
     height: 160px !important;
   }
 
+  .countdown-row {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    justify-content: space-between !important;
+    gap: 0.45rem !important;
+    margin-top: 2rem !important;
+  }
+
+  .countdown-unit {
+    width: calc((100% - 1.35rem) / 4);
+    min-width: 0;
+  }
+
+  .countdown-box {
+    min-width: 0 !important;
+    width: 100%;
+    padding: 0.7rem 0.3rem !important;
+    border-radius: 14px !important;
+    margin-bottom: 0.45rem !important;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.04) !important;
+  }
+
+  .countdown-value {
+    font-size: clamp(1.2rem, 4.8vw, 1.6rem) !important;
+    letter-spacing: -0.01em !important;
+  }
+
+  .countdown-label {
+    font-size: 0.56rem !important;
+    letter-spacing: 0.08em !important;
+  }
+
+  #about .about-grid {
+    gap: 1.4rem !important;
+    background: #fff !important;
+    border: 1px solid rgba(50, 38, 33, 0.08) !important;
+    border-radius: 22px !important;
+    padding: 1.1rem !important;
+    box-shadow: 0 14px 30px rgba(50, 38, 33, 0.06) !important;
+  }
+
+  #about .about-highlight {
+    min-height: auto !important;
+    padding: 1.1rem !important;
+    border-radius: 18px !important;
+    background: #fff8e3 !important;
+    border: 1px solid rgba(250, 187, 19, 0.3) !important;
+  }
+
+  #about .about-logo-glow {
+    display: none;
+  }
+
+  #about .about-stats {
+    gap: 0.9rem !important;
+  }
+
+  #about .about-stats > div {
+    border-left-width: 2px !important;
+    padding-left: 0.85rem !important;
+    background: rgba(251, 249, 246, 0.9);
+    border-radius: 10px;
+    padding-top: 0.55rem;
+    padding-bottom: 0.55rem;
+  }
+
+  #about h5 {
+    font-size: 1.3rem !important;
+  }
+
+  #about p {
+    font-size: 0.95rem !important;
+    line-height: 1.6 !important;
+  }
+
   .reviews-marquee-wrap {
     mask-image: none;
     -webkit-mask-image: none;
@@ -512,6 +596,10 @@ h4 {
   .partner-gallery .gallery-media-dhaba,
   .partner-gallery .gallery-media-hotel-thumb {
     height: 180px !important;
+  }
+
+  #about .about-stats {
+    grid-template-columns: 1fr 1fr !important;
   }
 }
 
