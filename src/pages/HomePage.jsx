@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useMotionValue, useSpring } from "framer-motion";
 import {
   ArrowRight,
   ShieldCheck,
@@ -721,6 +721,20 @@ const GallerySection = () => {
 export default function HomePage() {
   const [showPopup, setShowPopup] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
+
+  // --- Hero Interactive Logic ---
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+  const auraX = useSpring(mouseX, { stiffness: 100, damping: 30 });
+  const auraY = useSpring(mouseY, { stiffness: 100, damping: 30 });
+
+  const handleMouseMove = (e) => {
+    const { clientX, clientY, currentTarget } = e;
+    const { left, top } = currentTarget.getBoundingClientRect();
+    mouseX.set(clientX - left);
+    mouseY.set(clientY - top);
+  };
+
   useEffect(() => {
     const handleScroll = () => {
       const windowHeight = window.innerHeight;
@@ -815,6 +829,8 @@ export default function HomePage() {
           }}
         />
       </div>
+
+      {/* Ambient Orbs (Global) */}
       <motion.div
         className="ambient-orb orb-a"
         animate={{ x: [0, 50, 0], y: [0, -30, 0] }}
@@ -845,62 +861,178 @@ export default function HomePage() {
         </div>
       </nav>
 
-      {/* Hero: Zen Minimalist Canvas Alternative */}
-      <section id="hero" style={{
-        minHeight: '100vh',
-        background: 'var(--color-bone)',
-        position: 'relative',
-        overflow: 'hidden',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        paddingTop: '80px'
-      }}>
-        {/* Subtle Background Elements */}
-        <div style={{ position: 'absolute', top: '10%', right: '10%', width: '400px', height: '400px', background: 'var(--color-brand)', borderRadius: '50%', filter: 'blur(150px)', opacity: 0.1, zIndex: 0 }} />
-        <div style={{ position: 'absolute', bottom: '10%', left: '10%', width: '300px', height: '300px', background: 'var(--color-accent)', borderRadius: '50%', filter: 'blur(120px)', opacity: 0.05, zIndex: 0 }} />
+      {/* Hero: Zen Minimalist Canvas - Magnetic Evolution */}
+      <section
+        id="hero"
+        onMouseMove={handleMouseMove}
+        style={{
+          minHeight: '100vh',
+          background: 'var(--color-bone)',
+          position: 'relative',
+          overflow: 'hidden',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          paddingTop: '80px',
+          perspective: '1200px'
+        }}
+      >
+        {/* Interactive Magnetic Aura */}
+        <motion.div
+          style={{
+            position: 'absolute',
+            width: '600px',
+            height: '600px',
+            background: 'radial-gradient(circle, rgba(250, 187, 19, 0.1) 0%, transparent 70%)',
+            borderRadius: '50%',
+            left: -300,
+            top: -300,
+            x: auraX,
+            y: auraY,
+            pointerEvents: 'none',
+            zIndex: 2,
+            filter: 'blur(60px)'
+          }}
+        />
 
-        <div className="container" style={{ position: 'relative', zIndex: 1, textAlign: 'center' }}>
+        {/* Premium Paper Grain Overly */}
+        <div style={{
+          position: 'absolute', inset: 0,
+          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
+          opacity: 0.03, pointerEvents: 'none', zIndex: 1
+        }} />
+
+        {/* Subtle Magnetic Orbs (Background) */}
+        <motion.div
+          animate={{
+            x: [0, 40, 0],
+            y: [0, -30, 0],
+            scale: [1, 1.1, 1]
+          }}
+          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+          style={{ position: 'absolute', top: '15%', right: '12%', width: '450px', height: '450px', background: 'var(--color-brand)', borderRadius: '50%', filter: 'blur(160px)', opacity: 0.08, zIndex: 0 }}
+        />
+        <motion.div
+          animate={{
+            x: [0, -50, 0],
+            y: [0, 40, 0],
+            scale: [1.1, 1, 1.1]
+          }}
+          transition={{ duration: 12, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+          style={{ position: 'absolute', bottom: '10%', left: '8%', width: '350px', height: '350px', background: 'var(--color-accent)', borderRadius: '50%', filter: 'blur(140px)', opacity: 0.06, zIndex: 0 }}
+        />
+
+        <div className="container" style={{ position: 'relative', zIndex: 5, textAlign: 'center' }}>
           <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1.2, ease: [0.19, 1, 0.22, 1] }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1 }}
           >
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '1.5rem', marginBottom: '4rem' }}>
-              <div style={{ height: '1px', width: '30px', background: 'var(--color-ink)', opacity: 0.1 }} />
-              <span className="eyebrow" style={{ color: 'var(--color-ink)', margin: 0, fontSize: '0.8rem', opacity: 0.6 }}>PREPARING FOR GENESIS</span>
-              <div style={{ height: '1px', width: '30px', background: 'var(--color-ink)', opacity: 0.1 }} />
-            </div>
-
-            <h1 className="display-1" style={{ color: 'var(--color-ink)', marginBottom: '3rem', letterSpacing: '-0.04em' }}>
-              FOOD MITHRA <br />
-              <span className="serif" style={{ fontSize: '0.9em', color: 'var(--color-brand)' }}>is Launching.</span>
-            </h1>
-
-            <p style={{ color: 'var(--color-slate)', fontSize: '1.4rem', maxWidth: '700px', margin: '0 auto 5rem', lineHeight: 1.6, fontWeight: 400 }}>
-              The digital sanctuary for restaurants, diners, and the spirit of craftsmanship. <br />
-              Witness the return of fairness in:
-            </p>
-
-            <CountdownTimer />
-
-            {/* Circular Logo Pulsar */}
+            {/* Unique Interactive Eyebrow */}
             <motion.div
-              animate={{ scale: [1, 1.1, 1], opacity: [0.1, 0.2, 0.1] }}
-              transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+              whileHover={{ scale: 1.05 }}
+              style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: '1.5rem', marginBottom: '4.5rem', cursor: 'default' }}
+            >
+              <div style={{ height: '1px', width: '25px', background: 'var(--color-ink)', opacity: 0.15 }} />
+              <div style={{ position: 'relative' }}>
+
+                <motion.div
+                  animate={{ width: ['0%', '100%', '0%'] }}
+                  transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                  style={{ position: 'absolute', bottom: '-8px', left: 0, height: '1px', background: 'var(--color-brand)', opacity: 0.4 }}
+                />
+              </div>
+              <div style={{ height: '1px', width: '25px', background: 'var(--color-ink)', opacity: 0.15 }} />
+            </motion.div>
+
+            {/* Magnetic Display Header */}
+            <motion.div
+              initial={{ y: 40, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ duration: 1.4, ease: [0.19, 1, 0.22, 1] }}
+            >
+              <h1 className="display-1" style={{ color: 'var(--color-ink)', marginBottom: '3.5rem', letterSpacing: '-0.05em', lineHeight: 0.9 }}>
+                <motion.span
+                  whileHover={{ y: -10, scale: 1.02, textShadow: "0 20px 40px rgba(50,38,33,0.1)" }}
+                  transition={{ type: "spring", stiffness: 400, damping: 17 }}
+                  style={{ display: 'inline-block', cursor: 'default' }}
+                >
+                  FOOD MITHRA
+                </motion.span>
+                <br />
+                <motion.span
+                  whileHover={{ y: -8, scale: 1.05 }}
+                  transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                  className="serif"
+                  style={{ fontSize: '0.85em', color: 'var(--color-brand)', display: 'inline-block', position: 'relative', cursor: 'default' }}
+                >
+                  is Launching.
+                  <motion.span
+                    animate={{ opacity: [0, 1, 0] }}
+                    transition={{ duration: 2, repeat: Infinity }}
+                    style={{ position: 'absolute', right: '-15px', top: '10px', width: '8px', height: '8px', background: 'var(--color-brand)', borderRadius: '50%' }}
+                  />
+                </motion.span>
+              </h1>
+
+              <p style={{ color: 'var(--color-slate)', fontSize: '1.35rem', maxWidth: '650px', margin: '0 auto 5.5rem', lineHeight: 1.7, fontWeight: 400, opacity: 0.8 }}>
+                The architecture of food commerce is evolving. Join the sanctuary where <span style={{ color: 'var(--color-ink)', fontWeight: 800 }}>fairness</span> meets <span style={{ color: 'var(--color-ink)', fontWeight: 800 }}>craftsmanship.</span>
+              </p>
+            </motion.div>
+
+            {/* Elevated Zen Deck with 3D Tilt */}
+            <motion.div
+              initial={{ scale: 0.95, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ delay: 0.4, duration: 1.2 }}
+              whileHover={{
+                rotateX: -5,
+                rotateY: 5,
+                z: 50,
+                boxShadow: "0 50px 100px -20px rgba(50,38,33,0.15)"
+              }}
               style={{
-                position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)',
-                width: '600px', height: '600px', border: '1px solid var(--color-ink)', borderRadius: '50%',
-                zIndex: -1
+                background: 'rgba(255,255,255,0.4)',
+                backdropFilter: 'blur(20px)',
+                padding: '3.5rem 4rem',
+                borderRadius: '40px',
+                border: '1px solid #fff',
+                boxShadow: '0 30px 60px -15px rgba(50,38,33,0.06)',
+                display: 'inline-block',
+                position: 'relative',
+                transformStyle: 'preserve-3d',
+                cursor: 'pointer'
+              }}
+            >
+              <div style={{ transform: 'translateZ(30px)' }}>
+                <CountdownTimer />
+              </div>
+
+              {/* Corner Geometry Accents */}
+              <div style={{ position: 'absolute', top: '1.5rem', left: '1.5rem', width: '10px', height: '10px', borderTop: '1px solid var(--color-brand)', borderLeft: '1px solid var(--color-brand)', opacity: 0.3 }} />
+              <div style={{ position: 'absolute', bottom: '1.5rem', right: '1.5rem', width: '10px', height: '10px', borderBottom: '1px solid var(--color-accent)', borderRight: '1px solid var(--color-accent)', opacity: 0.3 }} />
+            </motion.div>
+
+            {/* Interactive Pulse Rings */}
+            <motion.div
+              animate={{ scale: [1, 1.15, 1], opacity: [0.05, 0.1, 0.05] }}
+              transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+              style={{
+                position: 'absolute', top: '55%', left: '50%', transform: 'translate(-50%, -50%)',
+                width: '700px', height: '700px', border: '1px solid var(--color-ink)', borderRadius: '50%',
+                zIndex: -1, pointerEvents: 'none'
               }}
             />
           </motion.div>
         </div>
 
-        {/* Vertical Brand Accent */}
-        <div className="mobile-hide" style={{ position: 'absolute', left: '4rem', bottom: '4rem', display: 'flex', flexDirection: 'column', gap: '1rem', opacity: 0.2, alignItems: 'center' }}>
-          <div style={{ height: '100px', width: '1px', background: 'var(--color-ink)' }} />
-          <span style={{ writingMode: 'vertical-rl', fontSize: '0.7rem', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '0.3em' }}>ESTABLISHED 2026</span>
+        {/* Floating Technical Coordinates */}
+        <div className="mobile-hide" style={{ position: 'absolute', left: '4rem', bottom: '4rem', display: 'flex', flexDirection: 'column', gap: '3rem', opacity: 0.3 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+            <div style={{ width: '4px', height: '4px', background: 'var(--color-brand)', borderRadius: '50%' }} />
+
+          </div>
+          <div style={{ height: '80px', width: '1px', background: 'var(--color-ink)', margin: '0 auto' }} />
         </div>
       </section>      {/* Photo Strip Between Hero and About */}
       <section style={{ padding: '1rem 0', background: 'var(--color-bone)', overflow: 'hidden' }}>
