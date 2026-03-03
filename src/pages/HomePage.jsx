@@ -48,79 +48,73 @@ const CountdownTimer = () => {
     return () => clearInterval(timer);
   }, []);
 
-const TimerUnit = React.memo(({ value, label, isBrand }) => {
-  const formattedValue = value.toString().padStart(2, "0");
+  const TimerUnit = React.memo(({ value, label, max, color }) => {
+    const formattedValue = value.toString().padStart(2, "0");
+    const radius = 45;
+    const circumference = 2 * Math.PI * radius;
+    const currentOffset = circumference - ((max === 0 ? 0 : (value / max)) * circumference);
 
-  return (
-    <div style={{ textAlign: "center", flex: "1 1 80px" }}>
-      <div
-        style={{
-          background: "#fff",
-          padding: "clamp(1rem, 3vw, 2rem)",
-          minWidth: "clamp(70px, 18vw, 120px)",
-          borderRadius: "clamp(16px, 4vw, 32px)",
-          boxShadow: "0 10px 30px rgba(0,0,0,0.03)",
-          border: "1px solid rgba(0,0,0,0.03)",
-          marginBottom: "0.8rem"
-        }}
-      >
-        {label === "Secs" ? (
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={formattedValue}
-              initial={{ y: 8, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              exit={{ y: -8, opacity: 0 }}
-              transition={{ duration: 0.2 }}
-              style={{
-                fontSize: "clamp(1.8rem, 6vw, 3.5rem)",
-                fontWeight: 900,
-                color: isBrand
-                  ? "var(--color-brand)"
-                  : "var(--color-ink)",
-                letterSpacing: "-0.02em"
-              }}
-            >
-              {formattedValue}
-            </motion.div>
-          </AnimatePresence>
-        ) : (
-          <div
-            style={{
-              fontSize: "clamp(1.8rem, 6vw, 3.5rem)",
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        <div style={{ position: 'relative', width: 'clamp(90px, 18vw, 130px)', height: 'clamp(90px, 18vw, 130px)' }}>
+          {/* Outer Ring */}
+          <svg style={{ position: 'absolute', inset: 0, transform: 'rotate(-90deg)', width: '100%', height: '100%', overflow: 'visible' }} viewBox="0 0 100 100">
+            <circle cx="50" cy="50" r={radius} fill="none" stroke="rgba(0,0,0,0.03)" strokeWidth="2" />
+            <motion.circle
+              cx="50" cy="50" r={radius} fill="none"
+              stroke={color} strokeWidth="2.5"
+              strokeDasharray={circumference}
+              animate={{ strokeDashoffset: currentOffset }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+              style={{ strokeLinecap: 'round' }}
+            />
+            {Array.from({ length: 12 }).map((_, i) => (
+              <line
+                key={i}
+                x1="50" y1="2" x2="50" y2="6"
+                stroke="rgba(0,0,0,0.1)" strokeWidth="1"
+                transform={`rotate(${i * 30} 50 50)`}
+              />
+            ))}
+          </svg>
+
+          {/* Inner Glass Core */}
+          <div style={{
+            position: 'absolute', inset: '10px',
+            background: 'linear-gradient(135deg, #fff 0%, #f9f9f9 100%)',
+            borderRadius: '50%',
+            boxShadow: '0 8px 20px rgba(0,0,0,0.04), inset 0 2px 4px rgba(255,255,255,1)',
+            border: '1px solid rgba(0,0,0,0.03)',
+            display: 'flex', flexDirection: 'column',
+            justifyContent: 'center', alignItems: 'center',
+            overflow: 'hidden'
+          }}>
+            <span style={{
+              fontSize: 'clamp(1.5rem, 5vw, 2.5rem)',
               fontWeight: 900,
-              color: isBrand
-                ? "var(--color-brand)"
-                : "var(--color-ink)",
-              letterSpacing: "-0.02em"
-            }}
-          >
-            {formattedValue}
+              color: 'var(--color-ink)',
+              lineHeight: 1,
+              letterSpacing: '-0.02em',
+              WebkitFontSmoothing: 'antialiased',
+              fontVariantNumeric: 'tabular-nums'
+            }}>
+              {formattedValue}
+            </span>
+            <span style={{ fontSize: '0.6rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.12em', color: 'var(--color-ghost)', marginTop: '0.2rem' }}>
+              {label}
+            </span>
           </div>
-        )}
+        </div>
       </div>
-
-      <span
-        style={{
-          fontSize: "clamp(0.6rem, 2vw, 0.75rem)",
-          fontWeight: 900,
-          color: "var(--color-ghost)",
-          textTransform: "uppercase",
-          letterSpacing: "0.15em"
-        }}
-      >
-        {label}
-      </span>
-    </div>
-  );
-});
+    );
+  });
 
   return (
-    <div className="countdown-row" style={{ display: 'flex', gap: '2rem', flexWrap: 'wrap', justifyContent: 'center', marginTop: '4rem' }}>
-      <TimerUnit value={timeLeft.days} label="Days" isBrand />
-      <TimerUnit value={timeLeft.hours} label="Hours" />
-      <TimerUnit value={timeLeft.minutes} label="Mins" />
-      <TimerUnit value={timeLeft.seconds} label="Secs" />
+    <div className="countdown-wrapper" style={{ display: 'flex', gap: 'clamp(1.5rem, 4vw, 3rem)', flexWrap: 'wrap', justifyContent: 'center', marginTop: '3.5rem', position: 'relative', zIndex: 2 }}>
+      <TimerUnit value={timeLeft.days} label="Days" max={60} color="var(--color-brand)" />
+      <TimerUnit value={timeLeft.hours} label="Hours" max={24} color="var(--color-accent)" />
+      <TimerUnit value={timeLeft.minutes} label="Mins" max={60} color="var(--color-ink)" />
+      <TimerUnit value={timeLeft.seconds} label="Secs" max={60} color="var(--color-brand)" />
     </div>
   );
 };
