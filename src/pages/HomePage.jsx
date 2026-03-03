@@ -48,30 +48,72 @@ const CountdownTimer = () => {
     return () => clearInterval(timer);
   }, []);
 
-  const TimerUnit = ({ value, label, isBrand }) => (
-    <motion.div
-      className="countdown-unit"
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.8 }}
-      style={{ textAlign: 'center' }}
-    >
-      <div className="countdown-box" style={{
-        background: '#fff',
-        padding: '2rem',
-        minWidth: '120px',
-        borderRadius: '32px',
-        boxShadow: '0 20px 40px rgba(0,0,0,0.03)',
-        border: '1px solid rgba(0,0,0,0.03)',
-        marginBottom: '1rem'
-      }}>
-        <div className="countdown-value" style={{ fontSize: '3.5rem', fontWeight: 900, color: isBrand ? 'var(--color-brand)' : 'var(--color-ink)', letterSpacing: '-0.02em' }}>
-          {value.toString().padStart(2, '0')}
-        </div>
+const TimerUnit = React.memo(({ value, label, isBrand }) => {
+  const formattedValue = value.toString().padStart(2, "0");
+
+  return (
+    <div style={{ textAlign: "center", flex: "1 1 80px" }}>
+      <div
+        style={{
+          background: "#fff",
+          padding: "clamp(1rem, 3vw, 2rem)",
+          minWidth: "clamp(70px, 18vw, 120px)",
+          borderRadius: "clamp(16px, 4vw, 32px)",
+          boxShadow: "0 10px 30px rgba(0,0,0,0.03)",
+          border: "1px solid rgba(0,0,0,0.03)",
+          marginBottom: "0.8rem"
+        }}
+      >
+        {label === "Secs" ? (
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={formattedValue}
+              initial={{ y: 8, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={{ y: -8, opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              style={{
+                fontSize: "clamp(1.8rem, 6vw, 3.5rem)",
+                fontWeight: 900,
+                color: isBrand
+                  ? "var(--color-brand)"
+                  : "var(--color-ink)",
+                letterSpacing: "-0.02em"
+              }}
+            >
+              {formattedValue}
+            </motion.div>
+          </AnimatePresence>
+        ) : (
+          <div
+            style={{
+              fontSize: "clamp(1.8rem, 6vw, 3.5rem)",
+              fontWeight: 900,
+              color: isBrand
+                ? "var(--color-brand)"
+                : "var(--color-ink)",
+              letterSpacing: "-0.02em"
+            }}
+          >
+            {formattedValue}
+          </div>
+        )}
       </div>
-      <span className="countdown-label" style={{ fontSize: '0.75rem', fontWeight: 900, color: 'var(--color-ghost)', textTransform: 'uppercase', letterSpacing: '0.2em' }}>{label}</span>
-    </motion.div>
+
+      <span
+        style={{
+          fontSize: "clamp(0.6rem, 2vw, 0.75rem)",
+          fontWeight: 900,
+          color: "var(--color-ghost)",
+          textTransform: "uppercase",
+          letterSpacing: "0.15em"
+        }}
+      >
+        {label}
+      </span>
+    </div>
   );
+});
 
   return (
     <div className="countdown-row" style={{ display: 'flex', gap: '2rem', flexWrap: 'wrap', justifyContent: 'center', marginTop: '4rem' }}>
