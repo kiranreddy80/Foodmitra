@@ -1030,7 +1030,7 @@ export default function HomePage() {
         <div className="mobile-hide" style={{ position: 'absolute', left: '4rem', bottom: '4rem', display: 'flex', flexDirection: 'column', gap: '3rem', opacity: 0.3 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
             <div style={{ width: '4px', height: '4px', background: 'var(--color-brand)', borderRadius: '50%' }} />
-
+                
           </div>
           <div style={{ height: '80px', width: '1px', background: 'var(--color-ink)', margin: '0 auto' }} />
         </div>
@@ -1042,7 +1042,7 @@ export default function HomePage() {
             transition={{ duration: 32, repeat: Infinity, ease: "linear" }}
             style={{ display: 'flex', gap: '0.75rem', width: 'max-content' }}
           >
-            {[
+            {[                     
               "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=900&q=80",
               "https://images.unsplash.com/photo-1552566626-52f8b828add9?auto=format&fit=crop&w=900&q=80",
               "https://images.unsplash.com/photo-1526318896980-cf78c088247c?auto=format&fit=crop&w=900&q=80",
